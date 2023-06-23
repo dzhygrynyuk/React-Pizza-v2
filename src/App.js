@@ -1,14 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 
-import { Header, Categories, Sort, PizzaBlock } from './components';
+import { Header, Categories, Sort, PizzaBlock, Skeleton } from './components';
 
 function App() {
     const [pizzas, setPizzas] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
         axios.get('http://localhost:3001/pizzas').then(({data}) => {
             setPizzas(data);
+            setIsLoading(false);
         });
     }, []);
 
@@ -31,9 +33,13 @@ function App() {
                     </div>
                     <h2 className="content__title">All pizzas</h2>
                     <div className="content__items">
-                        {pizzas && pizzas.map((itemObj, index) => (
-                            <PizzaBlock key={index} {...itemObj} />
-                        ))}
+                        {isLoading ? (
+                            Array(12).fill(0).map((_, index) => <Skeleton key={index} />)
+                        ) : (
+                            pizzas && pizzas.map((itemObj, index) => (
+                                <PizzaBlock key={index} {...itemObj} />
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
