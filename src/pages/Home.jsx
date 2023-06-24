@@ -6,13 +6,8 @@ import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 function Home() {
     const [pizzas, setPizzas] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-
-    React.useEffect(() => {
-        axios.get('http://localhost:3001/pizzas').then(({data}) => {
-            setPizzas(data);
-            setIsLoading(false);
-        });
-    }, []);
+    const [activeCategory, setActiveCategory] = React.useState(null);
+    const [activeSortType, setActiveSortType] = React.useState(0);
 
     const categories = ['Meat', 'Vegetarian', 'Grill', 'Spicy', 'Cheese'];
     const sortItems = [
@@ -21,11 +16,37 @@ function Home() {
         {name: 'alphabet', type: 'name', order: 'asc'}
     ];
 
+    console.log(sortItems[0]);
+
+    React.useEffect(() => {
+        axios.get(`http://localhost:3001/pizzas?${activeCategory !== null ? `category=${activeCategory}` : ''}&_sort=${sortItems[activeSortType].type}&_order=${sortItems[activeSortType].order}`)
+            .then(({data}) => {
+                setPizzas(data);
+                setIsLoading(false);
+            });
+    }, [activeCategory, activeSortType]);
+
+    const onClickSelectCaregory = (index) => {
+        setActiveCategory(index);
+    }
+
+    const onClickSelectSort = (index) => {
+        setActiveSortType(index);
+    }
+
     return(
         <div className="container">
             <div className="content__top">
-                <Categories items={categories} />
-                <Sort items={sortItems} />
+                <Categories 
+                    activeItem={activeCategory} 
+                    items={categories} 
+                    onSelectItem={onClickSelectCaregory}
+                />
+                <Sort 
+                    activeType={activeSortType} 
+                    items={sortItems} 
+                    onSelectType={onClickSelectSort}
+                />
             </div>
             <h2 className="content__title">All pizzas</h2>
             <div className="content__items">
