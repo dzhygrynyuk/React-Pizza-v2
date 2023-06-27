@@ -2,12 +2,14 @@ import React from 'react';
 import axios from 'axios';
 
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
+import { AppContext } from '../App';
 
 function Home() {
     const [pizzas, setPizzas] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [activeCategory, setActiveCategory] = React.useState(null);
     const [activeSortType, setActiveSortType] = React.useState(0);
+    const {searchValue} = React.useContext(AppContext);
 
     const categories = ['Meat', 'Vegetarian', 'Grill', 'Spicy', 'Cheese'];
     const sortItems = [
@@ -16,15 +18,17 @@ function Home() {
         {name: 'alphabet', type: 'name', order: 'asc'}
     ];
 
-    console.log(sortItems[0]);
+    const categoryParams = activeCategory !== null ? `category=${activeCategory}` : '';
+    const sortParams = `&_sort=${sortItems[activeSortType].type}&_order=${sortItems[activeSortType].order}`;
+    const searchParams = searchValue ? `&name_like=${searchValue}` : '';
 
     React.useEffect(() => {
-        axios.get(`http://localhost:3001/pizzas?${activeCategory !== null ? `category=${activeCategory}` : ''}&_sort=${sortItems[activeSortType].type}&_order=${sortItems[activeSortType].order}`)
+        axios.get(`http://localhost:3001/pizzas?${categoryParams}${sortParams}${searchParams}`)
             .then(({data}) => {
                 setPizzas(data);
                 setIsLoading(false);
             });
-    }, [activeCategory, activeSortType]);
+    }, [activeCategory, activeSortType, searchValue]);
 
     const onClickSelectCaregory = (index) => {
         setActiveCategory(index);
