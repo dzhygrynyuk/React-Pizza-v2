@@ -1,13 +1,19 @@
 import React from 'react';
 import axios from 'axios';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 import { AppContext } from '../App';
 
+import { setCategoryId } from '../redux/slices/filterSlice';
+
 function Home() {
+    const dispatch = useDispatch();
+    const activeCategory = useSelector((state) => state.filter.categoryId);
+
     const [pizzas, setPizzas] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    const [activeCategory, setActiveCategory] = React.useState(null);
     const [activeSortType, setActiveSortType] = React.useState(0);
     const {searchValue} = React.useContext(AppContext);
 
@@ -31,7 +37,8 @@ function Home() {
     }, [activeCategory, activeSortType, searchValue]);
 
     const onClickSelectCaregory = (index) => {
-        setActiveCategory(index);
+        //setActiveCategory(index);
+        dispatch(setCategoryId(index));
     }
 
     const onClickSelectSort = (index) => {
