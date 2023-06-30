@@ -1,12 +1,19 @@
 import React from "react";
+import { useSelector } from 'react-redux';
 
-function Sort({ items, activeType, onSelectType }) {
+const sortItems = [
+    {name: 'popular', type: 'popular', order: 'desc'},
+    {name: 'price', type: 'price', order: 'desc'},
+    {name: 'alphabet', type: 'name', order: 'asc'}
+];
+
+function Sort({ onSelectType }) {
     const [visiblePopup, setVisiblePopup] = React.useState(false);
-    //const [activeItem, setActiveItem] = React.useState(0);
-    const activeLabel = items[activeType].name;
+    const activeType = useSelector((state) => state.filter.sort);
+    const activeLabel = activeType.name;
 
-    const onSelectItem = (index) => {
-        onSelectType(index);
+    const onSelectItem = (item) => {
+        onSelectType(item);
         setVisiblePopup(false);
     };
 
@@ -36,10 +43,10 @@ function Sort({ items, activeType, onSelectType }) {
             {visiblePopup && (
                 <div className="sort__popup">
                     <ul>
-                        {items && items.map((item, index) => (
+                        {sortItems.map((item, index) => (
                             <li 
                                 className={activeType === index ? 'active' : ''}
-                                onClick={() => onSelectItem(index)} >
+                                onClick={() => onSelectItem(item)} >
                                 {item.name}
                             </li>
                         ))}

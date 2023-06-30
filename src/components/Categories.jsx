@@ -1,6 +1,11 @@
 import React from "react";
+import { useSelector } from 'react-redux';
 
-function Categories({ items, activeItem, onSelectItem }) {
+const categories = ['Meat', 'Vegetarian', 'Grill', 'Spicy', 'Cheese'];
+
+function Categories({ onSelectItem }) {
+    const activeItem = useSelector((state) => state.filter.categoryId);
+
     return(
         <div className="categories">
             <ul>
@@ -9,7 +14,7 @@ function Categories({ items, activeItem, onSelectItem }) {
                     onClick={() => onSelectItem(null)}>
                     All
                 </li>
-                {items && items.map( (item, index) => (
+                {categories && categories.map( (item, index) => (
                     <li 
                         key={`category_${index}`}
                         className={activeItem === index ? 'active' : ''}
