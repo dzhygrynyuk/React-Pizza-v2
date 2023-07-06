@@ -14,6 +14,8 @@ import { setCategoryId, setSort, setFilters } from '../redux/slices/filterSlice'
 function Home() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isMounted = React.useRef(false);
+    const isSearch = React.useRef(false);
 
     const [pizzas, setPizzas] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -21,10 +23,6 @@ function Home() {
 
     const activeCategory = useSelector((state) => state.filter.categoryId);
     const activeSortType = useSelector((state) => state.filter.sort);
-
-    const categoryParams = activeCategory !== null ? `category=${activeCategory}` : '';
-    const sortParams = `&_sort=${activeSortType.type}&_order=${activeSortType.order}`;
-    const searchParams = searchValue ? `&name_like=${searchValue}` : '';
 
     React.useEffect(() => {
         if(window.location.search){
@@ -35,24 +33,40 @@ function Home() {
                 ...params,
                 sort
             }));
+            isSearch.current = true;
         }
     }, []);
 
-    React.useEffect(() => {
-        axios.get(`http://localhost:3001/pizzas?${categoryParams}${sortParams}${searchParams}`)
+    const fetchPizzas = () => {
+        const categoryParams = activeCategory !== null ? `category=${activeCategory}` : '';
+        const sortParams = `&_sort=${activeSortType.type}&_order=${activeSortType.order}`;
+        const searchParams = searchValue ? `&name_like=${searchValue}` : '';
+
+        axios
+            .get(`http://localhost:3001/pizzas?${categoryParams}${sortParams}${searchParams}`)
             .then(({data}) => {
                 setPizzas(data);
                 setIsLoading(false);
             });
+    }
+
+    React.useEffect(() => {
+        if( !isSearch.current ){
+            fetchPizzas();
+        }
+        isSearch.current = false;
     }, [activeCategory, activeSortType, searchValue]);
 
     React.useEffect(() => {
-        const queryString = qs.stringify({
-            sortType: activeSortType.type,
-            categoryId: activeCategory
-        });
-
-        navigate(`?${queryString}`);
+        if(isMounted.current){
+            const queryString = qs.stringify({
+                sortType: activeSortType.type,
+                categoryId: activeCategory
+            });
+    
+            navigate(`?${queryString}`);
+        }
+        isMounted.current = true;
     }, [activeCategory, activeSortType, searchValue]);
 
     const onClickSelectCaregory = (index) => {
