@@ -1,14 +1,18 @@
 import React from 'react';
 import axios from 'axios';
+import qs from 'qs';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 import { AppContext } from '../App';
+import { sortItems } from '../components/Sort';
 
-import { setCategoryId, setSort } from '../redux/slices/filterSlice';
+import { setCategoryId, setSort, setFilters } from '../redux/slices/filterSlice';
 
 function Home() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [pizzas, setPizzas] = React.useState([]);
@@ -23,11 +27,32 @@ function Home() {
     const searchParams = searchValue ? `&name_like=${searchValue}` : '';
 
     React.useEffect(() => {
+        if(window.location.search){
+            const params = qs.parse(window.location.search.substring(1));
+            const sort = sortItems.find(obj => obj.type === params.sortType);
+
+            dispatch(setFilters({
+                ...params,
+                sort
+            }));
+        }
+    }, []);
+
+    React.useEffect(() => {
         axios.get(`http://localhost:3001/pizzas?${categoryParams}${sortParams}${searchParams}`)
             .then(({data}) => {
                 setPizzas(data);
                 setIsLoading(false);
             });
+    }, [activeCategory, activeSortType, searchValue]);
+
+    React.useEffect(() => {
+        const queryString = qs.stringify({
+            sortType: activeSortType.type,
+            categoryId: activeCategory
+        });
+
+        navigate(`?${queryString}`);
     }, [activeCategory, activeSortType, searchValue]);
 
     const onClickSelectCaregory = (index) => {

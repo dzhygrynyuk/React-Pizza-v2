@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from 'react-redux';
 
-const sortItems = [
+export const sortItems = [
     {name: 'popular', type: 'popular', order: 'desc'},
     {name: 'price', type: 'price', order: 'desc'},
     {name: 'alphabet', type: 'name', order: 'asc'}
