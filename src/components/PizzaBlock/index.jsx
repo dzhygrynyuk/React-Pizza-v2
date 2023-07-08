@@ -1,7 +1,13 @@
 import React from "react";
 import classNames from "classnames";
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { addItem } from '../../redux/slices/cartSlice';
+
 function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
+    const dispatch = useDispatch();
+
     const availableTypes = ['thin', 'traditional'];
     const availableSizes = [26, 30, 40];
 
@@ -14,6 +20,19 @@ function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
 
     const onSelectSize = (size) => {
         setActiveSize(size);
+    }
+
+    const onAddToCart = () => {
+        const item = {
+            id,
+            name,
+            price,
+            imageUrl,
+            type: activeType,
+            size: activeSize
+        };
+
+        dispatch(addItem(item));
     }
 
     return(
@@ -54,7 +73,7 @@ function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">${price}</div>
-                <div className="button button--outline button--add">
+                <button className="button button--outline button--add" onClick={onAddToCart}>
                     <svg
                         width="12"
                         height="12"
@@ -69,7 +88,7 @@ function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
                     </svg>
                     <span>Add</span>
                     <i>2</i>
-                </div>
+                </button>
             </div>
         </div>
     );
