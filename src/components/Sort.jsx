@@ -11,6 +11,7 @@ function Sort({ onSelectType }) {
     const [visiblePopup, setVisiblePopup] = React.useState(false);
     const activeType = useSelector((state) => state.filter.sort);
     const activeLabel = activeType.name;
+    const sortRef = React.useRef();
 
     const onSelectItem = (item) => {
         onSelectType(item);
@@ -21,8 +22,23 @@ function Sort({ onSelectType }) {
         setVisiblePopup(!visiblePopup);
     };
 
+    React.useEffect(() => {
+        const handleOutsideClick = (event) => {
+            const path = event.composedPath ? event.composedPath() : event.path;
+
+            if(!path.includes(sortRef.current)){
+                setVisiblePopup(false);
+                console.log('Outside');
+            }
+        }
+
+        document.body.addEventListener('click', handleOutsideClick);
+
+        return () => document.body.removeEventListener('click', handleOutsideClick);
+    }, []);
+
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div onClick={toggleVisiblePopup} className="sort__label">
                 <svg
                     className={visiblePopup ? 'rotated' : ''}
