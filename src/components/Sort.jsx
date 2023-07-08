@@ -28,7 +28,6 @@ function Sort({ onSelectType }) {
 
             if(!path.includes(sortRef.current)){
                 setVisiblePopup(false);
-                console.log('Outside');
             }
         }
 
