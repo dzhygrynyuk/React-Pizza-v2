@@ -9,6 +9,7 @@ import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 import { AppContext } from '../App';
 import { sortItems } from '../components/Sort';
 
+import { setItems } from '../redux/slices/pizzaSlice';
 import { setCategoryId, setSort, setFilters } from '../redux/slices/filterSlice';
 
 function Home() {
@@ -17,7 +18,7 @@ function Home() {
     const isMounted = React.useRef(false);
     const isSearch = React.useRef(false);
 
-    const [pizzas, setPizzas] = React.useState([]);
+    const pizzas = useSelector((state) => state.pizza.items);
     const [isLoading, setIsLoading] = React.useState(true);
     const {searchValue} = React.useContext(AppContext);
 
@@ -44,7 +45,7 @@ function Home() {
 
         try {
             const { data } = await axios.get(`http://localhost:3001/pizzas?${categoryParams}${sortParams}${searchParams}`);
-            setPizzas(data);
+            dispatch(setItems(data));
         } catch (error) {
             console.log('ERROR', error);
         }finally{
