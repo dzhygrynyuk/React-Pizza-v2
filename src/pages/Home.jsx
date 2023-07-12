@@ -37,17 +37,19 @@ function Home() {
         }
     }, []);
 
-    const fetchPizzas = () => {
+    const fetchPizzas = async () => {
         const categoryParams = activeCategory !== null ? `category=${activeCategory}` : '';
         const sortParams = `&_sort=${activeSortType.type}&_order=${activeSortType.order}`;
         const searchParams = searchValue ? `&name_like=${searchValue}` : '';
 
-        axios
-            .get(`http://localhost:3001/pizzas?${categoryParams}${sortParams}${searchParams}`)
-            .then(({data}) => {
-                setPizzas(data);
-                setIsLoading(false);
-            });
+        try {
+            const { data } = await axios.get(`http://localhost:3001/pizzas?${categoryParams}${sortParams}${searchParams}`);
+            setPizzas(data);
+        } catch (error) {
+            console.log('ERROR', error);
+        }finally{
+            setIsLoading(false);
+        }
     }
 
     React.useEffect(() => {
