@@ -8,8 +8,8 @@ import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 import { AppContext } from '../App';
 import { sortItems } from '../components/Sort';
 
-import { setItems, fetchPizza } from '../redux/slices/pizzaSlice';
-import { setCategoryId, setSort, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizza, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { setCategoryId, setSort, setFilters, selectFilter } from '../redux/slices/filterSlice';
 
 function Home() {
     const navigate = useNavigate();
@@ -17,11 +17,10 @@ function Home() {
     const isMounted = React.useRef(false);
     const isSearch = React.useRef(false);
 
-    const { items, status } = useSelector((state) => state.pizza);
+    const { items, status } = useSelector(selectPizzaData);
     const {searchValue} = React.useContext(AppContext);
 
-    const activeCategory = useSelector((state) => state.filter.categoryId);
-    const activeSortType = useSelector((state) => state.filter.sort);
+    const {categoryId: activeCategory, sort: activeSortType} = useSelector(selectFilter);
 
     React.useEffect(() => {
         if(window.location.search){

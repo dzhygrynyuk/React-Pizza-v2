@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from 'react-redux';
+import { selectSort } from "../redux/slices/filterSlice";
 
 export const sortItems = [
     {name: 'popular', type: 'popular', order: 'desc'},
@@ -9,7 +10,7 @@ export const sortItems = [
 
 function Sort({ onSelectType }) {
     const [visiblePopup, setVisiblePopup] = React.useState(false);
-    const activeType = useSelector((state) => state.filter.sort);
+    const activeType = useSelector(selectSort);
     const activeLabel = activeType.name;
     const sortRef = React.useRef();
 
