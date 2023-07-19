@@ -5,20 +5,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
-import { AppContext } from '../App';
 import { sortItems } from '../components/Sort';
 
 import { fetchPizza, selectPizzaData } from '../redux/slices/pizzaSlice';
-import { setCategoryId, setSort, setFilters, selectFilter } from '../redux/slices/filterSlice';
+import { setCategoryId, setSort, setFilters, selectFilter, selectSearchValue } from '../redux/slices/filterSlice';
 
 function Home() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const isMounted = React.useRef(false);
     const isSearch = React.useRef(false);
 
     const { items, status } = useSelector(selectPizzaData);
-    const {searchValue} = React.useContext(AppContext);
+    const searchValue = useSelector(selectSearchValue);
 
     const {categoryId: activeCategory, sort: activeSortType} = useSelector(selectFilter);
 
