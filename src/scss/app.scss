@@ -343,3 +343,28 @@ body {
     margin-top: 5px;
   }
 }
+
+.single-pizza{
+  display: flex;
+
+  &__img{
+    width: 35%;
+    img{
+      width: 100%;
+    }
+
+  }
+  &__info{
+    width: 65%;
+    padding-left: 50px;
+
+    h2{
+      margin-bottom: 15px;
+    }
+
+    &-item{
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+  }
+}
