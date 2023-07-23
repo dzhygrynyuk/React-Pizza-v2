@@ -5,11 +5,16 @@ import axios from "axios";
 const categories = ['Meat', 'Vegetarian', 'Grill', 'Spicy', 'Cheese'];
 const availableTypes = ['thin', 'traditional'];
 
-function SinglePizza() {
-    const [pizzaData, setPizzaData] = React.useState();
+const SinglePizza: React.FC = () => {
+    const [pizzaData, setPizzaData] = React.useState<{
+        imageUrl: string,
+        name: string,
+        category: number,
+        price: number,
+        sizes: number[],
+        types: number[],
+    }>();
     let { id } = useParams();
-
-    console.log(pizzaData);
 
     React.useEffect(() => {
         async function fetchPizza() {
