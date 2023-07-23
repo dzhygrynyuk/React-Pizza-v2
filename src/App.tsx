@@ -11,9 +11,9 @@ function App() {
 
             <div className="content">
                 <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route exact path="/cart" element={<Cart />} />
-                    <Route exact path="/pizza/:id" element={<SinglePizza />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/pizza/:id" element={<SinglePizza />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
