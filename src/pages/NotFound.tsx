@@ -1,4 +1,6 @@
-function NotFound() {
+import React from "react";
+
+const NotFound: React.FC = () => {
     return (
         <div className="container not-fount">
             <h1>

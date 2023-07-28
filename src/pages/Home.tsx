@@ -10,7 +10,7 @@ import { sortItems } from '../components/Sort';
 import { fetchPizza, selectPizzaData } from '../redux/slices/pizzaSlice';
 import { setCategoryId, setSort, setFilters, selectFilter, selectSearchValue } from '../redux/slices/filterSlice';
 
-function Home() {
+const Home: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -40,7 +40,10 @@ function Home() {
         const sortParams = `&_sort=${activeSortType.type}&_order=${activeSortType.order}`;
         const searchParams = searchValue ? `&name_like=${searchValue}` : '';
 
-        dispatch(fetchPizza({ categoryParams, sortParams, searchParams }));
+        dispatch(
+            // @ts-ignore
+            fetchPizza({ categoryParams, sortParams, searchParams })
+        );
     }
 
     React.useEffect(() => {
@@ -62,7 +65,7 @@ function Home() {
         isMounted.current = true;
     }, [activeCategory, activeSortType, searchValue]);
 
-    const onClickSelectCaregory = (index) => {
+    const onClickSelectCaregory = (index: number) => {
         dispatch(setCategoryId(index));
     }
 
@@ -83,7 +86,7 @@ function Home() {
                     {status === 'loading' ? (
                         Array(12).fill(0).map((_, index) => <Skeleton key={index} />)
                     ) : (   
-                        items && items.map((itemObj, index) => (
+                        items && items.map((itemObj: any, index: number) => (
                             <PizzaBlock key={index} {...itemObj} />
                         ))
                     )}
