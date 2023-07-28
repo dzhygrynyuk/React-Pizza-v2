@@ -66,15 +66,11 @@ function Home() {
         dispatch(setCategoryId(index));
     }
 
-    const onClickSelectSort = (item) => {
-        dispatch(setSort(item));
-    }
-
     return(
         <div className="container">
             <div className="content__top">
                 <Categories onSelectItem={onClickSelectCaregory} />
-                <Sort onSelectType={onClickSelectSort} />
+                <Sort />
             </div>
             <h2 className="content__title">All pizzas</h2>
             {status === 'error' ? (
