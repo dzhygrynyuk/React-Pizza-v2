@@ -2,20 +2,26 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSort, setSort } from "../redux/slices/filterSlice";
 
-export const sortItems = [
+type SortItem = {
+    name: string,
+    type: string,
+    order: string,
+};
+
+export const sortItems: SortItem[] = [
     {name: 'popular', type: 'popular', order: 'desc'},
     {name: 'price', type: 'price', order: 'desc'},
     {name: 'alphabet', type: 'name', order: 'asc'}
 ];
 
-function Sort() {
+const Sort: React.FC = () => {
     const dispatch = useDispatch();
     const [visiblePopup, setVisiblePopup] = React.useState(false);
     const activeType = useSelector(selectSort);
     const activeLabel = activeType.name;
-    const sortRef = React.useRef();
+    const sortRef = React.useRef<HTMLDivElement>(null);
 
-    const onSelectItem = (item) => {
+    const onSelectItem = (item: SortItem) => {
         dispatch(setSort(item));
         setVisiblePopup(false);
     };
@@ -25,7 +31,7 @@ function Sort() {
     };
 
     React.useEffect(() => {
-        const handleOutsideClick = (event) => {
+        const handleOutsideClick = (event: any) => {
             const path = event.composedPath ? event.composedPath() : event.path;
 
             if(!path.includes(sortRef.current)){

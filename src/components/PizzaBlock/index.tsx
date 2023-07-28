@@ -9,7 +9,16 @@ import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
 const availableTypes = ['thin', 'traditional'];
 const availableSizes = [26, 30, 40];
 
-function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
+type PizzaBlockProps = {
+    id: number; 
+    name: string;
+    price: number;
+    imageUrl: string;
+    sizes: number[];
+    types: number[];
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, name, price, imageUrl, sizes, types }) => {
     const dispatch = useDispatch();
     const cartItem = useSelector(selectCartItemById(id));
     const [activeType, setActiveType] = React.useState(types[0]);
@@ -17,11 +26,11 @@ function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
 
     const addedCount = cartItem ? cartItem.count : 0; 
 
-    const onSelectType = (index) => {
+    const onSelectType = (index: number) => {
         setActiveType(index);
     }
 
-    const onSelectSize = (size) => {
+    const onSelectSize = (size: number) => {
         setActiveSize(size);
     }
 

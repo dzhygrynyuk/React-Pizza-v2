@@ -3,8 +3,12 @@ import { useSelector } from 'react-redux';
 
 const categories = ['Meat', 'Vegetarian', 'Grill', 'Spicy', 'Cheese'];
 
-function Categories({ onSelectItem }) {
-    const activeItem = useSelector((state) => state.filter.categoryId);
+type CategoriesProps = {
+    onSelectItem: any;
+};
+
+const Categories: React.FC<CategoriesProps> = ({ onSelectItem }) => {
+    const activeItem = useSelector((state: any) => state.filter.categoryId);
 
     return(
         <div className="categories">
