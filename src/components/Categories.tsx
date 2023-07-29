@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 const categories = ['Meat', 'Vegetarian', 'Grill', 'Spicy', 'Cheese'];
 
 type CategoriesProps = {
-    onSelectItem: any;
+    onSelectItem: (index: number | null) => void;
 };
 
 const Categories: React.FC<CategoriesProps> = ({ onSelectItem }) => {

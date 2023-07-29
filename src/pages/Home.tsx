@@ -65,7 +65,7 @@ const Home: React.FC = () => {
         isMounted.current = true;
     }, [activeCategory, activeSortType, searchValue]);
 
-    const onClickSelectCaregory = (index: number) => {
+    const onClickSelectCaregory = (index: number | null) => {
         dispatch(setCategoryId(index));
     }
 
