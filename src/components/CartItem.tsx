@@ -16,9 +16,10 @@ type CartItemProps = {
 
 const CartItem: React.FC<CartItemProps> = ({ id, name, price, imageUrl, size, type, count }) => {
     const dispatch = useDispatch();
+    const propsObj = { id, name, price, imageUrl, size, type, count };
 
     const onClickPlus = () => {
-        dispatch(addItem( {id} ));
+        dispatch(addItem(propsObj));
     }
 
     const onClickMinus = () => {

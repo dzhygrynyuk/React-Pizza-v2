@@ -1,12 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { selectSort, setSort } from "../redux/slices/filterSlice";
-
-type SortItem = {
-    name: string,
-    type: string,
-    order: string,
-};
+import { SortItem, selectSort, setSort } from "../redux/slices/filterSlice";
 
 type PopupClick =  MouseEvent & {
     path: Node[];
@@ -73,7 +67,8 @@ const Sort: React.FC = () => {
                     <ul>
                         {sortItems.map((item, index) => (
                             <li 
-                                className={activeType === index ? 'active' : ''}
+                                key={`sort-item__${index}`}
+                                className={activeType.type === item.type ? 'active' : ''}
                                 onClick={() => onSelectItem(item)} >
                                 {item.name}
                             </li>
