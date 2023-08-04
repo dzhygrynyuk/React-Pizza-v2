@@ -20,14 +20,20 @@ export const fetchPizza = createAsyncThunk<Pizza[], Record<string, string>>(
     }
 );
 
+export enum Status {
+    LOADING = 'loading',
+    SUCCESS = 'success',
+    ERROR = 'error',
+}
+
 interface PizzaSliceState {
     items: Pizza[],
-    status: 'loading' | 'success' | 'error';
+    status: Status;
 }
 
 const initialState: PizzaSliceState = {
     items: [],
-    status: 'loading', // loading | success | error
+    status: Status.LOADING,
 };
 
 const pizzaSlice = createSlice({
@@ -40,15 +46,15 @@ const pizzaSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchPizza.pending, (state, action) => {
-            state.status = 'loading';
+            state.status = Status.LOADING;
             state.items = [];
         });
         builder.addCase(fetchPizza.fulfilled, (state, action) => {
             state.items = action.payload;
-            state.status = 'success';
+            state.status = Status.SUCCESS;
         });
         builder.addCase(fetchPizza.rejected, (state, action) => {
-            state.status = 'error';
+            state.status = Status.ERROR;
             state.items = [];
         });
     },
