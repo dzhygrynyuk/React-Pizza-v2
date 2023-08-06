@@ -43,7 +43,6 @@ const Home: React.FC = () => {
         const searchParams = searchValue ? `&name_like=${searchValue}` : '';
 
         dispatch(
-            // @ts-ignore
             fetchPizza({ categoryParams, sortParams, searchParams })
         );
     }

@@ -11,7 +11,13 @@ type Pizza = {
     types: number[];
 }
 
-export const fetchPizza = createAsyncThunk<Pizza[], Record<string, string>>(
+export type SearchPizzaParams = {
+    categoryParams: string;
+    sortParams: string;
+    searchParams: string;
+}
+
+export const fetchPizza = createAsyncThunk<Pizza[], SearchPizzaParams>(
     'pizza/fetchPizzaStatus',
     async (params) => {
         const { categoryParams, sortParams, searchParams } = params;
