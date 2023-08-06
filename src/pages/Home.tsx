@@ -8,11 +8,12 @@ import { Categories, Sort, PizzaBlock, Skeleton } from '../components';
 import { sortItems } from '../components/Sort';
 
 import { fetchPizza, selectPizzaData } from '../redux/slices/pizzaSlice';
-import { setCategoryId, setSort, setFilters, selectFilter, selectSearchValue } from '../redux/slices/filterSlice';
+import { setCategoryId, setFilters, selectFilter, selectSearchValue } from '../redux/slices/filterSlice';
+import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const isMounted = React.useRef(false);
     const isSearch = React.useRef(false);
@@ -27,7 +28,8 @@ const Home: React.FC = () => {
             const params = qs.parse(window.location.search.substring(1));
             const sort = sortItems.find(obj => obj.type === params.sortType);
 
-            dispatch(setFilters({
+            dispatch(
+                setFilters({
                 ...params,
                 sort
             }));
