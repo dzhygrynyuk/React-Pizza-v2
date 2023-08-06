@@ -66,9 +66,9 @@ const Home: React.FC = () => {
         isMounted.current = true;
     }, [activeCategory, activeSortType, searchValue]);
 
-    const onClickSelectCaregory = (index: number | null) => {
+    const onClickSelectCaregory = React.useCallback((index: number | null) => {
         dispatch(setCategoryId(index));
-    }
+    }, []);
 
     return(
         <div className="container">

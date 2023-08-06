@@ -7,7 +7,7 @@ type CategoriesProps = {
     onSelectItem: (index: number | null) => void;
 };
 
-const Categories: React.FC<CategoriesProps> = ({ onSelectItem }) => {
+const Categories: React.FC<CategoriesProps> = React.memo(({ onSelectItem }) => {
     const activeItem = useSelector((state: any) => state.filter.categoryId);
 
     return(
@@ -29,6 +29,6 @@ const Categories: React.FC<CategoriesProps> = ({ onSelectItem }) => {
             </ul>
         </div>
     );
-}
+});
 
 export default Categories;

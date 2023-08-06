@@ -12,7 +12,7 @@ export const sortItems: SortItem[] = [
     {name: 'alphabet', type: 'name', order: 'asc'}
 ];
 
-const Sort: React.FC = () => {
+const Sort: React.FC = React.memo(() => {
     const dispatch = useDispatch();
     const [visiblePopup, setVisiblePopup] = React.useState(false);
     const activeType = useSelector(selectSort);
@@ -78,6 +78,6 @@ const Sort: React.FC = () => {
             )}
         </div>
     );
-}
+});
 
 export default Sort;
